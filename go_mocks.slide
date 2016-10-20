@@ -1,0 +1,113 @@
+Testing and Mocks
+Testing simple services and HTTP backends
+22 Sep 2016
+Tags: go, golang, mock, test
+
+Peter Malina
+CTO, FlowUp
+peter.malina@flowup.cz
+http://flowup.cz/
+@gelidus5
+
+* Intro
+
+Presentation can be found on github.com/flowup/presentations/go_mocks
+
+- Structural typing
+- Mocks
+- Mocking services
+- Mocking HTTP backend
+- GoMock
+
+We'll dig through a lot of code ...
+
+* The problem
+
+Testing can be difficult ... 
+
+- many dependencies
+- complex features
+- time consuming actions
+- catching events fired during actions
+
+Just imagine testing actions that should fire after 2 days from other action.
+
+
+* Structural typing
+
+Let's define a simple interface for email sending services.
+
+.code ./go_mocks/email/email_sender_interface.go
+
+By above definition, email.Sender is any object that is able to SendEmail.
+
+* Structural typing cont'd
+
+We can now define services that use different providers to send emails.
+
+.code ./go_mocks/email/email_senders.go
+
+* Structural typing demo
+
+EmailSender interface gives us an ability to choose between these providers easily.
+
+.play ./go_mocks/email_sending/main.go
+
+* Mocks
+
+- simulate real objects
+- can fail tests (assert)
+
+* Mocking simple services (defining service)
+
+First, we need to define a service we want to test.
+
+.code ./go_mocks/auth/auth.go
+
+* Mocking simple services (mocking email sender)
+
+Let's mock our first service. Mock email sender will only set the EmailSender
+Sent property to true once the email should have been sent.
+
+.code ./go_mocks/email/mock_email_sender.go
+
+* Using mock within the test
+
+Usage of created mock is then same as using one of real email senders. 
+
+.code ./go_mocks/auth/auth_test.go
+
+* Mocking HTTP backends
+
+.code ./go_mocks/backend/main.go
+
+* golang/mock
+
+- GoMock is a mocking framework
+- Mockgen (mockgen) is a tool that can generate Mocks
+
+- generated mocks can expect functions on them to be called
+
+* golang/mock mocking
+
+It's time to get back to the email sender
+
+.code ./go_mocks/email/email_sender_interface.go
+
+We can automatically generate mock for the email.Sender interface
+
+.code ./go_mocks/gomock/command.sh
+
+* Using mocked email.Sender
+
+.code ./go_mocks/auth/auth_test_mock.go
+
+* Good practices and pitfalls
+
+- mock stable services (those which don't change from day to day)
+- mock time consuming and complex dependencies
+- write mocks for your own services
+
+- don't mock unstable services without proper workflow (e.g. everyday check)
+- don't mock services that may be used directly
+- don't call stubs mocks

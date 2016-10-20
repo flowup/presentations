@@ -1,0 +1,1 @@
+mockgen -destination email_sender_mock.go  github.com/flowup/presentations/go_mocks/email Sender
