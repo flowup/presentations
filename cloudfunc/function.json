@@ -1,0 +1,7 @@
+// function.json
+{
+    "name": "meetup_echo",
+    "bucket": "gelidus",
+    "memory": 256,
+    "timeout": 5
+}

@@ -1,0 +1,106 @@
+Google Cloud Functions and Cloudfunc
+Deploying functions to the clouds
+25 Sep 2017
+Tags: gcp, cloud functions
+
+Peter Malina
+CTO, FlowUp
+peter.malina@flowup.cz
+http://flowup.cz/
+@gelidus5
+
+* Agenda
+
+Presentation can be found at github.com/flowup/presentations
+
+- What is serverless
+- GCP functions
+- Cloudfunc
+- HTTP trigger demo
+- Alternatives
+- Resources
+
+* Serverless
+
+
+- fully-managed infrastructure
+- pricing to nearest 100ms
+- autoscaling
+- event driven
+
+.image https://1.bp.blogspot.com/-ydX6eSNBEHU/WWBEIq4e9qI/AAAAAAAAEE8/RZUBP6boui8FF5ZdCUAeZIKrDP3mfQbXgCLcBGAs/s640/Screen%2BShot%2B2017-07-07%2Bat%2B7.31.19%2BPM.png
+
+* Serverless con't (use-cases)
+
+- webhooks
+- small burstable units of work
+- triggers (pub/sub, storage, ...)
+- integration with third party services (e.g. other APIs)
+- mobile backend
+- IoT
+- unpredictable load
+- prototyping
+- production testing
+
+* GCP functions
+
+.image https://cloud.google.com/images/products/functions/connect-extend-2x.png
+
+* GCP functions
+
+- new feature still in early Beta
+- only us-central region is supported (at the moment!)
+- node.js runtime only
+- triggers for storage, pub/sub, logs
+- mobile-related events from firebase
+- can access multiple GCP services
+- free stuff (400,000 GB-seconds; 200,000 GHz seconds; 2 million invocations)
+
+* GCP functions events and triggers
+
+- HTTP
+- Cloud Storage
+- Cloud Pub/Sub
+- Firebase (DB, Storage, Analytics, Auth)
+- Stackdriver Logging
+
+* Cloudfunc
+
+- https://github.com/flowup/cloudfunc
+- early stages (more features to come)
+- supports HTTP triggers
+- bring anything from Go ecosystem, everything will be compiled
+
+* Cloudfunc implementation
+
+- using node.js shim to start the Go binary
+- stdin and stdout are inputs and outputs
+
+.code ./cloudfunc/shim.js
+
+* Cloudfunc usage - a simple echo function
+
+- simple start with 4 lines of code
+
+.code ./cloudfunc/simple.go
+
+* Cloudfunc configuration
+
+- every cloudfunc function must have a function.json
+
+.code ./cloudfunc/function.json
+
+* Demo time
+
+.image ./cloudfunc/cloudfunc.png 400 420
+
+* Alternatives
+
+- AWS lambda
+- Golang Lambda deployment - Apex (https://github.com/apex/go-apex)
+- Firebase functions
+
+* Resources
+
+- gcp documentation (with examples)
+- firecasts
